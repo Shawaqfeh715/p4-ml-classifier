@@ -4,10 +4,16 @@
 #include <cassert>
 #include <cmath>
 #include <string>
+#include <set>
 #include <map>
 using namespace std;
 
+class classifier(){
+      private:
+      
+      public:
 
+}
 int main(int argc,char* argv[]){
 
     // check number of arguments
