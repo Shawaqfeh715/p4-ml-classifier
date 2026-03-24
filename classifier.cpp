@@ -10,8 +10,33 @@ using namespace std;
 
 class classifier(){
       private:
-      
+      int total_posts;
+
+      int vocab_size;
+
+      map<string,int> label_counts;
+
+      map<string,int> word_counts;
+
+      map<string,map<string,int>> label_word_counts;
+
+      set<string> unique_words(const string& str){
+
+      }
+
+      double log_prior(const string&label){
+             
+      }
+
+      double log_likelihood(const string& word, const string& label){
+          
+      }
+
       public:
+         classifier();
+         
+
+
 
 }
 int main(int argc,char* argv[]){
