@@ -230,22 +230,30 @@ int main(int argc,char* argv[]){
             score+=classifier.log_likelihood(word, predicted_label);
           }
 
-          if (condition)
+          if (predicted_label==correct_label)
           {
-            /* code */
+             correct_predictions++;
           }
-          
-          
+          cout<<"test data:"<<endl;
+          cout<<" correct = "<<correct_label;
+          cout<<", predicted = "<<predicted_label;
+          cout<<", log-probability score = "<<score<<endl;
+          cout<<" content = "<<content<<endl;
+          cout<<endl;
         }
       }
       catch(const csvstream_exception& e)
       {
         cout<<"Error opening file:"<<test_name<<endl;
+        return 1;
       }
-      
+
+      cout<<"performance: "<<correct_predictions<<" / "<<total_test_posts;
+
+      cout<<" posts predicted correctly"<<endl;
     }
     
-    
+    return 0;
 
 
 }
