@@ -195,10 +195,11 @@ int main(int argc,char* argv[]){
 
         double ll= classifier.log_likelihood(word, label);
 
-        cout<<" "
+        cout<<" "<<label<<":"<<word<<", count ="<<count;
+        cout<<", log-likelihood= "<<ll<<endl;
       }
-      
     }
+    cout<<endl;
     
     
     if (argc==3)
