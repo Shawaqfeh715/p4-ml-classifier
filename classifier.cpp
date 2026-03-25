@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cmath>
 #include <string>
+#include <sstream>
 #include <set>
 #include <map>
 using namespace std;
@@ -19,7 +20,7 @@ set<string> unique_words(const string &str) {
   return words;
 }
 
-class classifier(){
+class classifier{
       private:
       int total_posts;
 
@@ -32,7 +33,7 @@ class classifier(){
       map<string,map<string,int>> label_word_counts;
 
       public:
-         classifier():total_posts(0):vocab_size(0);
+         classifier():total_posts(0),vocab_size(0){}
          
          void train(const string& label, const string& content){
               total_posts++;
@@ -60,7 +61,7 @@ class classifier(){
           return label_counts; 
         }
 
-        const map<string, map<string,int>>& get_label_word_counts const{
+        const map<string, map<string,int>>& get_label_word_counts() const{
              return label_word_counts;
         }
 
@@ -77,50 +78,44 @@ class classifier(){
 
                return log(static_cast<double>(it->second)/total_posts);
         }
-      double log_likelihood(const string& word, const string& label) const{
-             
-             auto label_it= label_word_counts.find(label);
-             if (label_it != label_word_counts.find(label))
-             {
-              double count=word_it->second;
-              double label_total=label_counts.at(label);
-              return log(count/label_total);
-             } 
-             
-             auto word_count_it=word_counts.find(word);
-             if (word_count_it!=word_counts.end())
-             {
-              double count= word_count_it->second;
-              return log(count/total_posts);
-             }
-
-             return log(1.0/total_posts);   
-      }
-
-      string predict(const string& content) const{
-          set<string> words = unique_words(content);
-
-          string best_label;
-          double best_score=-1e300;
-
-          for (const auto& label_pair:label_counts)
-          {
-            const string& label=label_pair.first;
-
-            double score=log_prior(label);
-
-            for (const string&word:words){
-              score+=log_likelihood(word,label);
+    double log_likelihood(const string& word, const string& label) const {
+    // Check if word appears with this label
+    auto label_it = label_word_counts.find(label);
+    if (label_it != label_word_counts.end()) {
+        const auto& word_counts_in_label = label_it->second;
+        auto word_it = word_counts_in_label.find(word);
+        if (word_it != word_counts_in_label.end()) {
+            double count = word_it->second;
+            double label_total = label_counts.at(label);
+            return log(count / label_total);
+        }
+    }
+    auto word_count_it = word_counts.find(word);
+    if (word_count_it != word_counts.end()) {
+        double count = word_count_it->second;
+        return log(count / total_posts);
+    }
+    return log(1.0 / total_posts);
+}
+      string predict(const string& content) const {
+        set<string> words = unique_words(content);
+        string best_label;
+        double best_score = -1e300;
+        for (const auto& label_pair : label_counts) {
+            const string& label = label_pair.first();
+            double score = log_prior(label);
+            for (const string& word : words) {
+                score += log_likelihood(word, label);
             }
-          }
-          if (best_label.empty()||score>best_score){
-             best_score=score;
-             best_label=label;
-          } else if (abs(score-best_score)<1e-9 && label< best_label){
-            best_label=label;
-          }
-      }
-      return best_label;
+            if (best_label.empty() || score > best_score) {
+                best_score = score;
+                best_label = label;
+            } else if (abs(score - best_score) < 1e-9 && label < best_label) {
+                best_label = label;
+            }
+        }
+        return best_label;
+    }
 };
 int main(int argc,char* argv[]){
 
@@ -133,7 +128,7 @@ int main(int argc,char* argv[]){
       return 1;
     }
 
-    classifier classifier
+    classifier classifier;
     //open and process training file
 
     string train_name=argv[1];
@@ -189,9 +184,9 @@ int main(int argc,char* argv[]){
 
       for(const auto& word_pair:word_counts_for_label)
       {
-        const string& word =word_pair.first;
+        const string& word =word_pair.first();
 
-        int count=word_pair.second;
+        int count=word_pair.second();
 
         double ll= classifier.log_likelihood(word, label);
 
@@ -202,14 +197,14 @@ int main(int argc,char* argv[]){
     cout<<endl;
     
     
-    if (argc==3)
+    if (argc==3){
        string test_name=argv[2];
        int correct_predictions=0;
        int total_test_posts=0;
     {
       try
       {
-        csvstream test_csv=test_name;
+        csvstream test_csv(test_name);
         map<string,string> row;
 
         while (test_csv>>row)
