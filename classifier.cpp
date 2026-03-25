@@ -103,6 +103,15 @@ class classifier(){
           string best_label;
           double best_score=-1e300;
 
+          for (const auto& label_pair:label_counts)
+          {
+            const string& label=label_pair.first;
+
+            double score=log_prior(label);
+
+            for (const string)
+          }
+          
       }
 
 }
