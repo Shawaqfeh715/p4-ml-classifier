@@ -8,7 +8,7 @@
   "name": "(lldb) Launch",
   "type": "cppdbg",
   "request": "launch",
-  "program": "${workspaceRoot}/classifier.exe",
+  "program": "${workspaceRoot}/classifier.cpp",
   "args": [],
   "stopAtEntry": false,
   "cwd": "${fileDirname}",
@@ -20,7 +20,7 @@
    "name": "Launch",
    "type": "lldb",
    "request": "launch",
-   "program": "${workspaceRoot}/<your program>",
+   "program": "${workspaceRoot}/classifier.cpp",
    "args": [],
    "cwd": "${workspaceRoot}"
   }

@@ -195,6 +195,7 @@ int main(int argc,char *argv[]){
         }
         cout<<endl;
       }
+      
     if (argc==3)
     {
       string test_name=argv[2];
