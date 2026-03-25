@@ -109,20 +109,33 @@ class classifier(){
 
             double score=log_prior(label);
 
-            for (const string)
+            for (const string&word:words){
+              score+=log_likelihood(word,label);
+            }
           }
-          
+          if (best_label.empty()||score>best_score){
+             best_score=score;
+             best_label=label;
+          } else if (abs(score-best_score)<1e-9 && label< best_label){
+            best_label=label;
+          }
       }
-
-}
+      return best_label;
+};
 int main(int argc,char* argv[]){
 
+    cout.precision(3);
+    cout<<fixed;
     // check number of arguments
     if (argc!=2 && argc!=3)
     {
       cout << "Usage: classifier.exe TRAIN_FILE [TEST_FILE]" << endl;
+      return 1;
     }
 
+    classifier classifier
+
+    string train_name=argv[1];
     //open and process training file
 
     string train_name=argv[1];
