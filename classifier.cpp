@@ -98,7 +98,11 @@ class classifier(){
       }
 
       string predict(const string& content) const{
-        
+          set<string> words = unique_words(content);
+
+          string best_label;
+          double best_score=-1e300;
+
       }
 
 }
