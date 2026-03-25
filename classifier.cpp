@@ -171,6 +171,12 @@ int main(int argc,char* argv[]){
     const auto& label_counts=classifier.get_label_counts();
     cout<<"classes:"<<endl;
 
+    for (const auto& pair :label_counts)
+    {
+      cout<<" "<<pair.first <<", "<<pair.second<<"examples, log-prior = ";
+      cout<<classifier.log_prior(pair.first)<<endl;
+    }
+    cout<<endl;
     
     if (argc==3)
     {
