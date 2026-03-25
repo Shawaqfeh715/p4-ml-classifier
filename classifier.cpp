@@ -134,8 +134,6 @@ int main(int argc,char* argv[]){
     }
 
     classifier classifier
-
-    string train_name=argv[1];
     //open and process training file
 
     string train_name=argv[1];
