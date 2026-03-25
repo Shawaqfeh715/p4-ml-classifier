@@ -205,21 +205,45 @@ int main(int argc,char *argv[]){
     {
       csvstream test_csv(test_name);
       map<string,string>row;
-      while ()
+      while (test_csv>>row)
       {
-        /* code */
+        string correct_label=row["tag"];
+        string content=row["content"];
+        total_test_posts++;
+
+        string predicted_lable=Classifer.predict(content);
+
+        double score=Classifer.log_prior(predicted_lable);
+        set<string> words = unique_words(content);
+
+        for (const string &word:words)
+        {
+          score+=Classifer.log_likelihood(word,predicted_lable);
+        }
+
+        if (predicted_lable==correct_label)
+        {
+          correct_predictions++;
+        }
+        cout<<" correct = "<<correct_label<<
+        ", predicted = "<<predicted_lable<<
+        ", log-probability score = "<< score<<endl;
+        cout<<" content = "<<content<<endl;
+        cout<<endl;
+        
       }
       
     }
-    catch(const vs& e)
+    catch(const csvstream_exception &)
     {
-      std::cerr << e.what() << '\n';
+      cout<<"Error opening file:"<<test_name<<endl;
+      return 1;
     }
-    
-    
-      
+
+    cout<<"performance: "<<correct_predictions
+    <<" / "<< total_test_posts<<" posts predicted correctly"<<endl; 
     }
-    
+  return 0;
 }
 
 
