@@ -175,7 +175,6 @@ int main(int argc,char* argv[]){
 
     cout<<"  classifier parameters:"<<endl;
     const auto& label_word_counts=classifier.get_label_word_counts();
-    const auto& word_counts=classifier.get_word_counts();
 
     for (const auto& label_pair:label_word_counts)
     {
