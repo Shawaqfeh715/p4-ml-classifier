@@ -117,20 +117,18 @@ class classifier{
         return best_label;
     }
 };
-int main(int argc,char* argv[]){
 
+int main(int argc,char *argv[]){
     cout.precision(3);
     cout<<fixed;
-    // check number of arguments
-    if (argc!=2 && argc!=3)
+
+    if (argc !=2 && argc !=3)
     {
-      cout << "Usage: classifier.exe TRAIN_FILE [TEST_FILE]" << endl;
+      cout<<"Usage: classifier.exe TRAIN_FILE [TEST_FILE]"<<endl;
       return 1;
     }
-
-    classifier classifier;
-    //open and process training file
-
+    
+    classifier Classifer;
     string train_name=argv[1];
 
     try
@@ -138,115 +136,88 @@ int main(int argc,char* argv[]){
       csvstream train_csv(train_name);
       map<string,string> row;
 
+      if (argc==2)
+      {
+        cout<<"training data:"<<endl;
+      }
+
       while (train_csv>>row)
       {
-        string label=row["tag"];
+        string label =row["tag"];
         string content=row["content"];
 
-        cout<<"  training data:"<<endl;
-        cout<<"  label = "<<label<<", content = "<<content<<endl;
-
-        classifier.train(label,content);
-      }
-      
+        if (argc==2)
+        {
+          cout<<"  label = "<<label<<", content = "<<content<<endl;
+        }
+        Classifer.train(label,content);
+      } 
     }
-    catch(const csvstream_exception & e)
+    catch(const csvstream_exception &)
     {
-      cout<<"Error opening file:"<<train_name<<endl;
+      cout<<"Error opening file: "<<train_name<<endl;
       return 1;
     }
+    
+    Classifer.set_vocab_size();
 
-    classifier.set_vocab_size();
+    cout<<"trained on "<<Classifer.get_total_posts()<<" examples"<<endl;
 
-    cout<<"trained on "<<classifier.get_total_posts()<<" examples"<<endl;
-
-    cout<<"vocabulary size = "<<classifier.get_vocab_size()<<endl;
-    cout<<endl;
-
-    const auto& label_counts=classifier.get_label_counts();
-    cout<<"  classes:"<<endl;
-
-    for (const auto& pair :label_counts)
+    if (argc==2)
     {
-      cout<<". "<<pair.first <<", "<<pair.second<<" examples, log-prior = ";
-      cout<<classifier.log_prior(pair.first)<<endl;
-    }
-    cout<<endl;
+      cout<<"vocabulary size = "<<Classifer.get_vocab_size()<<endl;
+      cout<<endl;
 
-    cout<<"  classifier parameters:"<<endl;
-    const auto& label_word_counts=classifier.get_label_word_counts();
+      const auto &label_counts=Classifer.get_label_counts();
+      cout<<"classes:"<<endl;
 
-    for (const auto& label_pair:label_word_counts)
-    {
-      const string& label =label_pair.first;
-      const auto& word_counts_for_label=label_pair.second;
-
-      for(const auto& word_pair:word_counts_for_label)
+      for (const auto &pair:label_counts)
       {
-        const string& word =word_pair.first;
-
-        int count=word_pair.second;
-
-        double ll= classifier.log_likelihood(word, label);
-
-        cout<<"  "<<label<<":"<<word<<", count = "<<count;
-        cout<<", log-likelihood = "<<ll<<endl;
+        cout<<" "<<pair.first<<", "<<pair.second<<" examples, log-prior = "<<Classifer.log_prior(pair.first)<<endl;
       }
-    }
-    cout<<endl;
-    
-    
-    if (argc==3){
-       string test_name=argv[2];
-       int correct_predictions=0;
-       int total_test_posts=0;
+      cout<<endl;
 
-      try
+      cout<<"classifier parameters:"<<endl;
+      const auto &label_word_counts=Classifer.get_label_word_counts();
+      for (const auto &label_pair:label_word_counts)
       {
-        csvstream test_csv(test_name);
-        map<string,string> row;
-
-        while (test_csv>>row)
+        const string &label=label_pair.first;
+        const auto &word_counts_for_label=label_pair.second;
+        for (const auto &word_pair:word_counts_for_label)
         {
-          string correct_label=row["tag"];
-          string content=row["content"];
-          total_test_posts++;
+          const string &word=word_pair.first;
+          int count=word_pair.second;
+          double ll = Classifer.log_likelihood(word,label);
 
-          string predicted_label=classifier.predict(content);
-
-          double score=0;
-
-          set<string> words=unique_words(content);
-          score=classifier.log_prior(predicted_label);
-
-          for (const string& word:words)
-          {
-            score+=classifier.log_likelihood(word, predicted_label);
-          }
-
-          if (predicted_label==correct_label)
-          {
-             correct_predictions++;
-          }
-          cout<<"  test data:"<<endl;
-          cout<<"  correct = "<<correct_label;
-          cout<<", predicted = "<<predicted_label;
-          cout<<", log-probability score = "<<score<<endl;
-          cout<<"  content = "<<content<<endl;
-          cout<<endl;
+          cout<<"  "<<label<<":"<<word
+              <<", count = "<<count
+              <<", log-likelihood = "<<ll<<endl;
         }
+        cout<<endl;
       }
-      catch(const csvstream_exception& e)
+    if (argc==3)
+    {
+      string test_name=argv[2];
+      int correct_predictions=0;
+      int total_test_posts=0;
+    
+    try
+    {
+      csvstream test_csv(test_name);
+      map<string,string>row;
+      while ()
       {
-        cout<<"Error opening file:"<<test_name<<endl;
-        return 1;
+        /* code */
       }
-
-      cout<<"performance: "<<correct_predictions<<" / "<<total_test_posts;
-
-      cout<<" posts predicted correctly"<<endl;
       
-    return 0;
+    }
+    catch(const vs& e)
+    {
+      std::cerr << e.what() << '\n';
+    }
+    
+    
+      
     }
     
 }
