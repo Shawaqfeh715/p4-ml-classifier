@@ -177,6 +177,10 @@ int main(int argc,char* argv[]){
       cout<<classifier.log_prior(pair.first)<<endl;
     }
     cout<<endl;
+
+    cout<<"classifier parameters:"<<endl;
+    const auto& label_word_counts=classifier.get_label_word_counts();
+    const auto& word_counts=classifier.get_word_counts();
     
     if (argc==3)
     {
