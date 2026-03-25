@@ -101,8 +101,8 @@ class classifier{
         set<string> words = unique_words(content);
         string best_label;
         double best_score = -1e300;
-        for (const auto& label_pair : label_counts) {
-            const string& label = label_pair.first();
+        for (const auto& label_pair : label_counts ){
+            const string& label = label_pair.first;
             double score = log_prior(label);
             for (const string& word : words) {
                 score += log_likelihood(word, label);
@@ -143,8 +143,8 @@ int main(int argc,char* argv[]){
         string label=row["tag"];
         string content=row["content"];
 
-        cout<<"training data:"<<endl;
-        cout<<" label = "<<label<<", content = "<<content<<endl;
+        cout<<"  training data:"<<endl;
+        cout<<"  label = "<<label<<", content = "<<content<<endl;
 
         classifier.train(label,content);
       }
@@ -164,34 +164,34 @@ int main(int argc,char* argv[]){
     cout<<endl;
 
     const auto& label_counts=classifier.get_label_counts();
-    cout<<"classes:"<<endl;
+    cout<<"  classes:"<<endl;
 
     for (const auto& pair :label_counts)
     {
-      cout<<" "<<pair.first <<", "<<pair.second<<"examples, log-prior = ";
+      cout<<". "<<pair.first <<", "<<pair.second<<" examples, log-prior = ";
       cout<<classifier.log_prior(pair.first)<<endl;
     }
     cout<<endl;
 
-    cout<<"classifier parameters:"<<endl;
+    cout<<"  classifier parameters:"<<endl;
     const auto& label_word_counts=classifier.get_label_word_counts();
     const auto& word_counts=classifier.get_word_counts();
 
     for (const auto& label_pair:label_word_counts)
     {
-      const string& label =label_pair.first();
-      const auto& word_counts_for_label=label_pair.second();
+      const string& label =label_pair.first;
+      const auto& word_counts_for_label=label_pair.second;
 
       for(const auto& word_pair:word_counts_for_label)
       {
-        const string& word =word_pair.first();
+        const string& word =word_pair.first;
 
-        int count=word_pair.second();
+        int count=word_pair.second;
 
         double ll= classifier.log_likelihood(word, label);
 
-        cout<<" "<<label<<":"<<word<<", count ="<<count;
-        cout<<", log-likelihood= "<<ll<<endl;
+        cout<<"  "<<label<<":"<<word<<", count = "<<count;
+        cout<<", log-likelihood = "<<ll<<endl;
       }
     }
     cout<<endl;
@@ -201,7 +201,7 @@ int main(int argc,char* argv[]){
        string test_name=argv[2];
        int correct_predictions=0;
        int total_test_posts=0;
-    {
+
       try
       {
         csvstream test_csv(test_name);
@@ -229,11 +229,11 @@ int main(int argc,char* argv[]){
           {
              correct_predictions++;
           }
-          cout<<"test data:"<<endl;
-          cout<<" correct = "<<correct_label;
+          cout<<"  test data:"<<endl;
+          cout<<"  correct = "<<correct_label;
           cout<<", predicted = "<<predicted_label;
           cout<<", log-probability score = "<<score<<endl;
-          cout<<" content = "<<content<<endl;
+          cout<<"  content = "<<content<<endl;
           cout<<endl;
         }
       }
@@ -246,11 +246,10 @@ int main(int argc,char* argv[]){
       cout<<"performance: "<<correct_predictions<<" / "<<total_test_posts;
 
       cout<<" posts predicted correctly"<<endl;
+      
+    return 0;
     }
     
-    return 0;
-
-
 }
 
 
