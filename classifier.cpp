@@ -97,7 +97,9 @@ class classifier(){
              return log(1.0/total_posts);   
       }
 
-
+      string predict(const string& content) const{
+        
+      }
 
 }
 int main(int argc,char* argv[]){
