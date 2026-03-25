@@ -8,6 +8,17 @@
 #include <map>
 using namespace std;
 
+// EFFECTS: Return a set of unique whitespace delimited words
+set<string> unique_words(const string &str) {
+  istringstream source(str);
+  set<string> words;
+  string word;
+  while (source >> word) {
+    words.insert(word);
+  }
+  return words;
+}
+
 class classifier(){
       private:
       int total_posts;
@@ -20,22 +31,25 @@ class classifier(){
 
       map<string,map<string,int>> label_word_counts;
 
-      set<string> unique_words(const string& str){
-
-      }
-
-      double log_prior(const string&label){
-             
-      }
-
-      double log_likelihood(const string& word, const string& label){
-          
-      }
-
       public:
-         classifier();
+         classifier():total_posts(0):vocab_size(0);
          
+         void train(const string& label, const string& content){
+              total_posts++;
+              label_counts[label]++;
 
+              set<string> words=unique_words(content);
+
+              for(const string&word:words)
+              {
+                word_counts[word]++;
+                label_word_counts[label][word]++;
+              }
+              
+         }
+         void set_vocab_size(){
+              vocab_size=word_counts.size();
+         }
 
 
 }
