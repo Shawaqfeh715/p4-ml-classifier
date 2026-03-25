@@ -181,6 +181,25 @@ int main(int argc,char* argv[]){
     cout<<"classifier parameters:"<<endl;
     const auto& label_word_counts=classifier.get_label_word_counts();
     const auto& word_counts=classifier.get_word_counts();
+
+    for (const auto& label_pair:label_word_counts)
+    {
+      const string& label =label_pair.first();
+      const auto& word_counts_for_label=label_pair.second();
+
+      for(const auto& word_pair:word_counts_for_label)
+      {
+        const string& word =word_pair.first;
+
+        int count=word_pair.second;
+
+        double ll= classifier.log_likelihood(word, label);
+
+        cout<<" "
+      }
+      
+    }
+    
     
     if (argc==3)
     {
