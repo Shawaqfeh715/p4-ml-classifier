@@ -147,6 +147,11 @@ int main(int argc,char* argv[]){
       {
         string label=row["tag"];
         string content=row["content"];
+
+        cout<<"training data:"<<endl;
+        cout<<" label = "<<label<<", content = "<<content<<endl;
+
+        classifier.train(label,content);
       }
       
     }
@@ -156,6 +161,7 @@ int main(int argc,char* argv[]){
       return 1;
     }
 
+    classifier.set_vocab_Size
     if (argc==3)
     {
       string test_name=argv[2];
