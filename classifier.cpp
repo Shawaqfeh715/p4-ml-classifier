@@ -162,6 +162,9 @@ int main(int argc,char* argv[]){
     }
 
     classifier.set_vocab_size();
+
+    cout<<"trained on "<<classifier.get_total_posts()<<" examples"<<endl;
+    
     if (argc==3)
     {
       string test_name=argv[2];
