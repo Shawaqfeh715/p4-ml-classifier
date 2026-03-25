@@ -77,6 +77,25 @@ class classifier(){
 
                return log(static_cast<double>(it->second)/total_posts);
         }
+      double log_likelihood(const string& word, const string& label) const{
+             
+             auto label_it= label_word_counts.find(label);
+             if (label_it != label_word_counts.find(label))
+             {
+              double count=word_it->second;
+              double label_total=label_counts.at(label);
+              return log(count/label_total);
+             } 
+             
+             auto word_count_it=word_counts.find(word);
+             if (word_count_it!=word_counts.end())
+             {
+              double count= word_count_it->second;
+              return log(count/total_posts);
+             }
+
+             return log(1.0/total_posts);   
+      }
 
 
 
