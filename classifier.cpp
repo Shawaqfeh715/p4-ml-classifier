@@ -173,7 +173,7 @@ int main(int argc,char *argv[]){
 
       for (const auto &pair:label_counts)
       {
-        cout<<" "<<pair.first<<", "<<pair.second<<" examples, log-prior = "<<Classifer.log_prior(pair.first)<<endl;
+        cout<<"  "<<pair.first<<", "<<pair.second<<" examples, log-prior = "<<Classifer.log_prior(pair.first)<<endl;
       }
       cout<<endl;
 
@@ -193,11 +193,10 @@ int main(int argc,char *argv[]){
               <<", count = "<<count
               <<", log-likelihood = "<<ll<<endl;
         }
-        cout<<endl;
       }
-      
-    if (argc==3)
-    {
+      cout<<endl;
+    }
+    if (argc==3){
       string test_name=argv[2];
       int correct_predictions=0;
       int total_test_posts=0;
@@ -212,24 +211,24 @@ int main(int argc,char *argv[]){
         string content=row["content"];
         total_test_posts++;
 
-        string predicted_lable=Classifer.predict(content);
+        string predicted_label=Classifer.predict(content);
 
-        double score=Classifer.log_prior(predicted_lable);
+        double score=Classifer.log_prior(predicted_label);
         set<string> words = unique_words(content);
 
         for (const string &word:words)
         {
-          score+=Classifer.log_likelihood(word,predicted_lable);
+          score+=Classifer.log_likelihood(word,predicted_label);
         }
 
-        if (predicted_lable==correct_label)
+        if (predicted_label==correct_label)
         {
           correct_predictions++;
         }
-        cout<<" correct = "<<correct_label<<
-        ", predicted = "<<predicted_lable<<
+        cout<<"  correct = "<<correct_label<<
+        ", predicted = "<<predicted_label<<
         ", log-probability score = "<< score<<endl;
-        cout<<" content = "<<content<<endl;
+        cout<<"  content = "<<content<<endl;
         cout<<endl;
         
       }
@@ -237,7 +236,7 @@ int main(int argc,char *argv[]){
     }
     catch(const csvstream_exception &)
     {
-      cout<<"Error opening file:"<<test_name<<endl;
+      cout<<"Error opening file: "<<test_name<<endl;
       return 1;
     }
 
