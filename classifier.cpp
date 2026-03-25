@@ -50,6 +50,34 @@ class classifier(){
          void set_vocab_size(){
               vocab_size=word_counts.size();
          }
+         int get_total_posts() const {
+          return total_posts;
+        }
+         int get_vocab_size() const{ 
+          return vocab_size;
+        }
+        const map<string,int>& get_label_counts() const {
+          return label_counts; 
+        }
+
+        const map<string, map<string,int>>& get_label_word_counts const{
+             return label_word_counts;
+        }
+
+        const map<string, int>& get_word_counts() const{
+          return word_counts;
+        }
+
+        double log_prior(const string& label) const{
+               auto it=label_counts.find(label);
+               if (it==label_counts.end())
+               {
+                return log(0.0);
+               }
+
+               return log(static_cast<double>(it->second)/total_posts);
+        }
+
 
 
 }
