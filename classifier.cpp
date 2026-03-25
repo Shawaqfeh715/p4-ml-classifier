@@ -203,8 +203,10 @@ int main(int argc,char* argv[]){
     
     
     if (argc==3)
+       string test_name=argv[2];
+       int correct_predictions=0;
+       int total_test_posts=0;
     {
-      string test_name=argv[2];
       try
       {
         csvstream test_csv=test_name;
@@ -214,6 +216,26 @@ int main(int argc,char* argv[]){
         {
           string correct_label=row["tag"];
           string content=row["content"];
+          total_test_posts++;
+
+          string predicted_label=classifier.predict(content);
+
+          double score=0;
+
+          set<string> words=unique_words(content);
+          score=classifier.log_prior(predicted_label);
+
+          for (const string& word:words)
+          {
+            score+=classifier.log_likelihood(word, predicted_label);
+          }
+
+          if (condition)
+          {
+            /* code */
+          }
+          
+          
         }
       }
       catch(const csvstream_exception& e)
