@@ -161,7 +161,7 @@ int main(int argc,char* argv[]){
       return 1;
     }
 
-    classifier.set_vocab_Size
+    classifier.set_vocab_size();
     if (argc==3)
     {
       string test_name=argv[2];
