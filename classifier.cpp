@@ -168,7 +168,10 @@ int main(int argc,char* argv[]){
     cout<<"vocabulary size = "<<classifier.get_vocab_size()<<endl;
     cout<<endl;
 
-  
+    const auto& label_counts=classifier.get_label_counts();
+    cout<<"classes:"<<endl;
+
+    
     if (argc==3)
     {
       string test_name=argv[2];
