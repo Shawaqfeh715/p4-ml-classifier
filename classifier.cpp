@@ -3,7 +3,6 @@
 #include "csvstream.hpp"
 #include <cassert>
 #include <cmath>
-#include <string>
 #include <sstream>
 #include <set>
 #include <map>
@@ -118,7 +117,7 @@ class classifier{
     }
 };
 
-int print_training_summary(const classifier &c){
+void print_training_summary(const classifier &c){
     cout<<"vocabulary size = "<<c.get_vocab_size()<<endl;
     cout<<endl;
 
@@ -215,7 +214,7 @@ int main(int argc,char *argv[]){
       return 1;
     }
     
-    classifier Classifer;
+    classifier Classifier;
     string train_name=argv[1];
 
     try
@@ -246,9 +245,9 @@ int main(int argc,char *argv[]){
       return 1;
     }
     
-    Classifer.set_vocab_size();
+    Classifier.set_vocab_size();
 
-    std::cout<<"trained on "<<Classifer.get_total_posts()<<" examples"<<endl;
+    std::cout<<"trained on "<<Classifier.get_total_posts()<<" examples"<<endl;
     std::cout<<endl;
 
     if (argc==2) {
