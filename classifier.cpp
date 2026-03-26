@@ -236,7 +236,7 @@ int main(int argc,char *argv[]){
         {
           std::cout<<"  label = "<<label<<", content = "<<content<<endl;
         }
-        Classifer.train(label,content);
+        Classifier.train(label,content);
       } 
     }
     catch(const csvstream_exception &)
@@ -251,13 +251,13 @@ int main(int argc,char *argv[]){
     std::cout<<endl;
 
     if (argc==2) {
-      print_training_summary(Classifer);
+      print_training_summary(Classifier);
     }
 
     if (argc==3)
     {
       string test_name=argv[2];
-      return test_classifier(Classifer,test_name);
+      return test_classifier(Classifier,test_name);
     }
     
     return 0;
